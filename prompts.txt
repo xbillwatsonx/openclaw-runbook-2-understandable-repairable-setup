@@ -1,0 +1,198 @@
+OpenClaw Runbook 2: paste-ready prompts
+Released, version 0.1.0.
+Runbook: https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.0/runbook/oc-runbook-2-understandable-repairable-setup.md
+
+=== Prompt 1 of 7: Map My OpenClaw System ===
+
+# Prompt: Map My OpenClaw System
+
+Copy this prompt into your OpenClaw chat. Run it before you change anything.
+
+---
+
+**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.0/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§2, The system map**. This prompt helps the reader understand the six components; the agent should inspect read-only, explain in plain language, redact secrets, and make no changes.
+
+I want to build a mental map of how my OpenClaw setup is put together. Do not change any files, config, services, or plugins. Just inspect and report.
+
+For each of the following, tell me what it is, where it lives on this machine, and what it does:
+
+1. **Gateway**: the process that runs OpenClaw. How does it run (systemd user service, system service, or something else)? What is the service name and current state? Run `openclaw status` and report.
+2. **Configuration**: the active config file. Run `openclaw config file` to find its path. What is the config file format (JSON5)?
+3. **Workspace**: where my files, notes, projects, and memory live.
+4. **Plugins**: run `openclaw plugins list` and report how many are discovered and how many are enabled. Do not list every plugin, just the count and a few examples of what is enabled.
+5. **Service manager**: how the gateway is started and kept running. Is it systemd? What is the unit name?
+6. **Logs**: where do the gateway and service logs live? How would I read recent logs (for example, `journalctl --user -u openclaw-gateway.service -n 50`)?
+7. **Boundaries**: what is the relationship between the gateway, the config, the workspace, and the plugins? Which one controls which?
+
+Do not print any credentials, tokens, or secret values. Redact them if they appear.
+
+After the map, tell me the one or two boundaries that are most important to understand before I change anything.
+
+=== Prompt 2 of 7: Read My Config Safely ===
+
+# Prompt: Read My Config Safely
+
+Copy this prompt into your OpenClaw chat.
+
+---
+
+**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.0/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§3, Configuration: read and change safely**. This prompt helps the reader understand config without exposing secrets; the agent should inspect and explain only, redact sensitive values, and make no changes.
+
+I want to understand my OpenClaw config file without changing it. Do not modify the config.
+
+Please:
+
+1. Run `openclaw config file` and tell me the exact path to the active config file.
+2. Run `openclaw config get` on a few safe, non-secret values so I can see how the dot-path syntax works. For example, show me the gateway bind address and port, and the default model, if those are readable.
+3. Explain the difference between `openclaw config get`, `openclaw config set`, `openclaw config patch`, and `openclaw config validate`. For each, tell me whether it is read-only or state-changing.
+4. Run `openclaw config validate` and report whether the current config is valid against the schema.
+
+Important:
+- Do not print any credentials, tokens, API keys, or secret values. Redact them.
+- Do not run `openclaw config set` or `openclaw config patch` yet. This is read-only.
+
+After this, tell me the safest way to make a single small config change and verify it, so I understand the workflow before I actually do it.
+
+=== Prompt 3 of 7: Check the Gateway and Service Manager ===
+
+# Prompt: Check the Gateway and Service Manager
+
+Copy this prompt into your OpenClaw chat.
+
+---
+
+**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.0/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§4, The gateway and service manager**. This prompt helps the reader understand gateway operation; the agent should inspect read-only, explain commands and the WSL/systemd prerequisite, and make no service changes.
+
+I want to understand how my OpenClaw gateway runs and how to check and restart it safely. Do not restart anything yet. Just inspect and explain.
+
+Please:
+
+1. Run `openclaw status` and report the gateway state, bind address, and service type.
+2. Tell me the systemd user unit name for the gateway (for example, `openclaw-gateway.service`).
+3. Show me the read-only command to check the service state: `systemctl --user status openclaw-gateway.service`. Explain what "active (running)" means.
+4. Show me the command to restart the service: `systemctl --user restart openclaw-gateway.service`. Explain what it changes and what success looks like.
+5. Show me how to read recent logs: `journalctl --user -u openclaw-gateway.service -n 50`. Explain what to look for.
+6. Explain the difference between restarting the gateway via `systemctl --user restart` versus using the `openclaw gateway restart` command, if both exist.
+
+On WSL, first confirm that `systemctl --user` can reach a running systemd user service. If it cannot, stop and explain the prerequisite; do not try to reconfigure WSL or substitute another service manager.
+
+Do not restart the service. Do not change anything. Just give me the commands and explain what each one does and when I would use it.
+
+=== Prompt 4 of 7: Understand and Manage Plugins ===
+
+# Prompt: Understand and Manage Plugins
+
+Copy this prompt into your OpenClaw chat.
+
+---
+
+**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.0/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§5, Plugins: install, remove, verify**. This prompt helps the reader understand plugin choices before practice; the agent should inspect read-only, explain source/capability/policy risk, redact sensitive data, and make no changes.
+
+I want to understand OpenClaw plugins and how to install, remove, and verify them. Do not install or remove anything yet. Just inspect and explain.
+
+Please:
+
+1. Run `openclaw plugins list` and report how many plugins are discovered and how many are enabled. Give me a few examples of enabled plugins and what they do.
+2. Explain what a plugin is in OpenClaw, and the difference between a stock plugin (bundled with OpenClaw) and an installed plugin.
+3. Show me the command to install a plugin: `openclaw plugins install <path-or-spec-or-plugin>`. Explain the different things I can install (a local path, an archive such as `.zip`, `.tgz`, or `.tar.gz`, an npm spec, a git repo, a `clawhub:` package, or a marketplace entry).
+4. Show me the command to uninstall a plugin: `openclaw plugins uninstall <plugin>`. Explain what it changes.
+5. Show me how to verify a plugin is healthy: `openclaw plugins doctor` and `openclaw plugins inspect <plugin>`. Explain what each reports.
+6. Explain the `--pin` flag on install and why I might use it to record an exact version.
+7. Explain that `--force` both confirms a non-ClawHub source and permits overwriting an existing plugin or hook pack. Also explain `--accept-capabilities` and `--acknowledge-install-policy-warning`, including that policy blocks and failures remain terminal.
+
+Do not install, uninstall, enable, or disable any plugin. Just explain the commands and what each one does.
+
+After this, explain that I can discover candidates with the read-only `openclaw plugins search <query>` command, browse ClawHub, or use a local plugin path I already trust. Do not recommend, invent, or select a plugin ID for me. Then tell me how to evaluate the spec I select for Prompt 07, covering source provenance, declared capabilities, policy warnings, version/pinning, installed ID, and uninstall plan.
+
+=== Prompt 5 of 7: Run Diagnostic Checks and Gather Evidence ===
+
+# Prompt: Run Diagnostic Checks and Gather Evidence
+
+Copy this prompt into your OpenClaw chat.
+
+---
+
+**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.0/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§6, Diagnostic checks and evidence**. This prompt helps the reader gather evidence before a change; the agent should run only read-only checks, explain results plainly, redact secrets, and perform no repair.
+
+I want to learn how to gather useful evidence about my OpenClaw setup before I change anything. Do not change anything. Just run read-only diagnostics and report.
+
+Please run and explain each of the following:
+
+1. `openclaw status`: what does it tell me about the gateway, channels, and sessions?
+2. `openclaw status --all`: what extra detail does the full diagnosis add?
+3. `openclaw doctor --lint`: what health checks does it run, and what does it report? (This is read-only.)
+4. `openclaw security audit`: what does it flag, and is it read-only? (Do not run `--fix`.)
+5. `openclaw plugins doctor`: what plugin load issues does it report?
+
+For each command, tell me:
+- Whether it is read-only or state-changing.
+- What success looks like.
+- What a warning or failure would look like.
+
+Do not run any `--fix`, `--repair`, or state-changing variant. This is evidence gathering only.
+
+After running these, summarize the current health of my setup in plain language, and flag anything I should look at before making changes.
+
+=== Prompt 6 of 7: Record a Known-Good Baseline ===
+
+# Prompt: Record a Known-Good Baseline
+
+Copy this prompt into your OpenClaw chat.
+
+---
+
+**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.0/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§7, Recording a known-good baseline**. This prompt helps the reader preserve a safe comparison point; the agent should gather read-only evidence, redact secrets, write only the approved baseline file, and report its path.
+
+I want to record a known-good baseline of my OpenClaw setup, so I have a reference point to compare against after any change. Do not change anything. Just gather and record.
+
+Please produce a baseline that captures:
+
+1. **Version**: run `openclaw --version` and record it.
+2. **Gateway state**: run `openclaw status` and record the gateway state, bind address, and service type.
+3. **Config path and validity**: run `openclaw config file` and `openclaw config validate`, and record the path and whether it is valid.
+4. **Plugins**: run `openclaw plugins list` and record the count of discovered and enabled plugins.
+5. **Service state**: if Prompt 03 confirmed a working systemd user service, run `systemctl --user status openclaw-gateway.service` and record whether it is active. If systemd or the user bus is unavailable, record `not available in this environment` and the exact read-only error; do not reconfigure WSL or substitute another service manager.
+6. **Disk space**: run `df -h ~` and record the free space on the home partition.
+7. **Backup freshness**: is there a recent backup? When was the last one?
+
+Save this baseline as a markdown file in the actual workspace path discovered in Prompt 01 (for example, `<discovered-workspace>/openclaw-baseline-YYYY-MM-DD.md`), with a clear date in the filename. If the workspace path was not confirmed, stop and ask me where to save it rather than assuming the default.
+
+Do not print any credentials, tokens, or secret values. Redact them.
+
+After saving, tell me the exact path to the baseline file, and explain how I would use it to detect drift after a future change.
+
+=== Prompt 7 of 7: Practice One Safe Change End to End ===
+
+# Prompt: Practice One Safe Change End to End
+
+Copy this prompt into your OpenClaw chat.
+
+---
+
+**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.0/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§5, Plugins: install, remove, verify** and **§8, The safe-change workflow**. This prompt helps the reader complete one controlled plugin lifecycle; the agent should inspect first, pause at approval gates, change only the selected plugin, verify each state, roll back on failure, redact secrets, and record the outcome.
+
+I want to practice one full plugin lifecycle with a trusted plugin spec that I select: install → verify → inspect → uninstall → verify. Follow the complete workflow: Back up → Change one thing → Validate → Test → Record. Do not choose, recommend, or invent a plugin ID for me, and do not make any destructive or hard-to-reverse change.
+
+Please guide me through this workflow:
+
+1. **Select and inspect; do not install.** Ask me for the trusted plugin spec I selected. If I have not selected one, explain that I can discover candidates with the read-only `openclaw plugins search <query>` command, browse ClawHub, or use a local plugin path I already trust; do not choose one for me. Confirm that my installed OpenClaw CLI recognizes the selected source type. Review available provenance, requested capabilities, install-policy warnings, version/pinning choice, expected installed plugin ID, and the uninstall command. If any of those are unclear, stop.
+2. **Back up.** Confirm that `~/Backups` exists; if it does not, pause and ask before creating it. Run `openclaw backup create --verify --output ~/Backups` and confirm the archive is valid. Record the pre-change output of `openclaw plugins list` and `openclaw plugins doctor`. If the backup or pre-check fails, stop.
+3. **Approval gate: install.** Show me the exact `openclaw plugins install <trusted-user-selected-spec>` command and explain every flag. Explain whether this command will run from a separate shell or through the running Gateway: OpenClaw reports that a running-Gateway install can request an automatic restart when config reload is enabled, while a separate-shell install requires a later manual restart; config reload can also restart connected channels. If the no-restart boundary cannot be preserved, stop and ask for separate service-impact approval. Do not add `--accept-capabilities`, `--acknowledge-install-policy-warning`, or `--force` unless I have reviewed and explicitly accepted what that flag covers. Wait for my explicit approval before running the install command.
+4. **Change one thing.** After approval, install only that plugin. Treat installation as executable-code installation: it writes tracked plugin files and records and may add or update plugin configuration. It can register the plugin enabled, or disabled when required configuration is absent. Do not enable, disable, update, restart the gateway, or change anything else. If installation reports failure or an uncertain partial result, stop, preserve the output, and inspect with `plugins list` and `plugins doctor`; do not guess an ID or proceed to uninstall until the exact installed ID and ownership are confirmed.
+5. **Validate the installed state.** When the exact installed ID is confirmed, run `openclaw plugins doctor`, `openclaw plugins inspect <installed-plugin-id>`, and `openclaw plugins list`. Confirm the actual ID, source/version, declared capabilities, and enabled/disabled state. If there is a new failure, policy block, unexpected sibling entry, or config change, stop. Use the reviewed uninstall preview only when the exact installed ID and ownership are known; otherwise report the blocker and preserve evidence. Do not invoke the plugin's capabilities.
+6. **Understand the runtime boundary.** Record the exact restart/config-reload message printed by the install. A separate-shell install or removal requires a later Gateway restart before the running Gateway reflects the code change. This bounded exercise does not run a restart command or claim runtime verification. If the install reports that an automatic restart was requested, or config reload restarted connected channels, stop and record that the no-restart boundary changed. Any further runtime testing needs separate approval, a service-impact warning, health checks, and a rollback plan.
+7. **Preview uninstall.** Run `openclaw plugins uninstall <installed-plugin-id> --dry-run`. Explain the full preview. Depending on the package, uninstall can remove plugin settings, install/index records, allow/deny entries, exact matching load paths, managed files, sibling policy, and related slot/channel references. It leaves an explicit `enabled: false` marker for each removed plugin ID. The dry run shows only effects that apply to the selected installation; if any previewed effect is unexpected, stop.
+8. **Approval gate: uninstall.** Show me the exact interactive `openclaw plugins uninstall <installed-plugin-id>` command. Do not use `--force`, which skips confirmation, or `--keep-files`, which leaves installed files, unless I separately request and approve the exact effect. Wait for my explicit approval.
+9. **Roll back.** After approval, uninstall only that plugin through the interactive confirmation. If uninstall fails or ownership is ambiguous, stop and report the blocker; do not use `--force` automatically.
+10. **Verify rollback.** Run `openclaw plugins list`, `openclaw plugins doctor`, and `openclaw plugins inspect <installed-plugin-id>`. Compare them with the pre-change output and the uninstall preview. Success means the managed package is no longer installed, any remaining `enabled: false` marker matches the documented uninstall behavior, no new plugin health issue exists, and no unrelated state changed. Remember that a running gateway still needs a separately approved restart before its loaded code state can be claimed to match disk.
+11. **Record.** Note the date, selected spec, installed ID, approvals, commands run, enabled/disabled result, validation result, uninstall dry-run preview, confirmed uninstall result, before/after comparison, restart-not-performed boundary, and how the verified backup could be used if residual changes remain.
+
+Important:
+- Do not run `openclaw reset`, the top-level `openclaw uninstall`, or any unrelated destructive command. The scoped `openclaw plugins uninstall <installed-plugin-id>` is part of this approved exercise.
+- Do not change credentials, tokens, or security settings.
+- Do not proceed without a user-selected trusted spec, a verified backup, a known plugin ID, a clear uninstall plan, and explicit approval at both state-changing gates.
+- Stop if capability requests or policy warnings are unclear or unacceptable, the source cannot be trusted, verification fails, or rollback would affect unrelated files.
+
+After the workflow, summarize what I did, what I learned, the evidence that the managed install was removed cleanly, the fact that no gateway restart or runtime-capability test occurred, and any residual risk. Do not claim completion unless every success condition in step 10 is met.
+
+=== End of prompts ===
