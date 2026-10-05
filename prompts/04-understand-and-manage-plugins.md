@@ -4,7 +4,7 @@ Copy this prompt into your OpenClaw chat.
 
 ---
 
-**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.0/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§5, Plugins: install, remove, verify**. This prompt helps the reader understand plugin choices before practice; the agent should inspect read-only, explain source/capability/policy risk, redact sensitive data, and make no changes.
+**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.1/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§5, Plugins: install, remove, verify**. This prompt helps the reader understand plugin choices before practice; the agent should inspect read-only, explain source/capability/policy risk, redact sensitive data, and make no changes.
 
 I want to understand OpenClaw plugins and how to install, remove, and verify them. Do not install or remove anything yet. Just inspect and explain.
 

@@ -4,7 +4,7 @@ Copy this prompt into your OpenClaw chat.
 
 ---
 
-**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.0/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§4, The gateway and service manager**. This prompt helps the reader understand gateway operation; the agent should inspect read-only, explain commands and the WSL/systemd prerequisite, and make no service changes.
+**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.1/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§4, The gateway and service manager**. This prompt helps the reader understand gateway operation; the agent should inspect read-only, explain commands and the WSL/systemd prerequisite, and make no service changes.
 
 I want to understand how my OpenClaw gateway runs and how to check and restart it safely. Do not restart anything yet. Just inspect and explain.
 

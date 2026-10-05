@@ -4,7 +4,7 @@ Copy this prompt into your OpenClaw chat.
 
 ---
 
-**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.0/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§3, Configuration: read and change safely**. This prompt helps the reader understand config without exposing secrets; the agent should inspect and explain only, redact sensitive values, and make no changes.
+**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.1/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§3, Configuration: read and change safely**. This prompt helps the reader understand config without exposing secrets; the agent should inspect and explain only, redact sensitive values, and make no changes.
 
 I want to understand my OpenClaw config file without changing it. Do not modify the config.
 

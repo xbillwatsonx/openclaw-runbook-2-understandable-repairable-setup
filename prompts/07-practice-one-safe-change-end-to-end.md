@@ -4,7 +4,7 @@ Copy this prompt into your OpenClaw chat.
 
 ---
 
-**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.0/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§5, Plugins: install, remove, verify** and **§8, The safe-change workflow**. This prompt helps the reader complete one controlled plugin lifecycle; the agent should inspect first, pause at approval gates, change only the selected plugin, verify each state, roll back on failure, redact secrets, and record the outcome.
+**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.1/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§5, Plugins: install, remove, verify** and **§8, The safe-change workflow**. This prompt helps the reader complete one controlled plugin lifecycle; the agent should inspect first, pause at approval gates, change only the selected plugin, verify each state, roll back on failure, redact secrets, and record the outcome.
 
 I want to practice one full plugin lifecycle with a trusted plugin spec that I select: install → verify → inspect → uninstall → verify. Follow the complete workflow: Back up → Change one thing → Validate → Test → Record. Do not choose, recommend, or invent a plugin ID for me, and do not make any destructive or hard-to-reverse change.
 

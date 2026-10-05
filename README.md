@@ -1,6 +1,6 @@
 # OpenClaw Runbook 2: Build an OpenClaw Setup You Can Understand and Repair
 
-**Status:** Released, version 0.1.0.
+**Status:** Released, version 0.1.1.
 **Scope:** Linux and WSL, single operator, self-hosted OpenClaw; commands checked against OpenClaw 2026.9.4.
 
 OpenClaw Runbook 2 helps you build a working mental model of your OpenClaw installation: the gateway, configuration, workspace, plugins, service manager, and logs, and the boundaries between them. You gather read-only evidence, record a known-good baseline, and practice one safe change end to end. It is written for a technically comfortable self-hosted operator working with an OpenClaw agent. The procedure was technically validated in a clean, disposable WSL2 installation running OpenClaw 2026.9.4, and reviewed with a six-scenario beginner persona suite, before this package was assembled.
@@ -53,15 +53,12 @@ Prompts 01 through 06 are read-only. Prompt 07 practices one bounded plugin life
 | [references/plugin-quick-reference.md](references/plugin-quick-reference.md) | Read-only plugin commands and the safe lifecycle practice sequence. |
 | [references/diagnostic-command-cheat-sheet.md](references/diagnostic-command-cheat-sheet.md) | The read-only diagnostic commands in one table. |
 | [scripts/validate-package.sh](scripts/validate-package.sh) | Deterministic package validator used by the justfile. |
-| [PUBLIC-MANIFEST.json](PUBLIC-MANIFEST.json) | Public-file allowlist used to build and verify the release ZIP. |
-| [RIGHTS-MANIFEST.json](RIGHTS-MANIFEST.json) | Public rights and release-provenance sidecar. |
-| [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) | Third-party notice registry; this release contains no third-party allowlist entries. |
 
 ## Release status
 
-Version 0.1.0 was released on 2026-10-04. Every prompt carries the immutable tag-specific runbook address:
+Version 0.1.1 was released on 2026-10-04. Every prompt carries the immutable tag-specific runbook address:
 
-<https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.0/runbook/oc-runbook-2-understandable-repairable-setup.md>
+<https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.1/runbook/oc-runbook-2-understandable-repairable-setup.md>
 
 ## Commands for agents and maintainers
 
@@ -70,7 +67,7 @@ From the package root:
 - `just help`: list all commands.
 - `just menu`: open the interactive command menu.
 - `just validate`: run the deterministic package validator.
-- `just release-archive`: build the version 0.1.0 ZIP and checksum beside the package folder.
+- `just release-archive`: build the version 0.1.1 ZIP and checksum beside the package folder.
 - `just agent-preflight`: preflight checks before working on the package.
 - `just agent-verify`: verification after edits.
 - `just agent-status`: current package state.

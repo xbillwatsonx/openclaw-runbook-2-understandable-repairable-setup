@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Deterministic validator for the OpenClaw Runbook 2 public package.
-# Released package, version 0.1.0.
+# Released package, version 0.1.1.
 #
 # Checks the package manifest, license integrity, product naming, privacy
 # hygiene, Markdown link resolution, prompts.txt integrity, immutable URL
@@ -33,9 +33,6 @@ EXPECTED_FILES=(
   CHANGELOG.md
   LICENSE.md
   README.md
-  PUBLIC-MANIFEST.json
-  RIGHTS-MANIFEST.json
-  THIRD-PARTY-NOTICES.md
   justfile
   prompts.txt
   runbook/glossary.md
@@ -55,7 +52,6 @@ PROSE_FILES=(
   .gitignore
   CHANGELOG.md
   README.md
-  THIRD-PARTY-NOTICES.md
   justfile
   prompts.txt
   runbook/glossary.md
@@ -70,8 +66,15 @@ PROSE_FILES=(
   "${PROMPT_FILES[@]}"
 )
 
-RELEASE_URL="https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.0/runbook/oc-runbook-2-understandable-repairable-setup.md"
+RELEASE_URL="https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.1/runbook/oc-runbook-2-understandable-repairable-setup.md"
 LICENSE_SHA256="4a115f5800376ea76d3b45b269779c9b1b4fa1a77425c584df7326fa66c3371a"
+
+# Repository-only rights metadata is intentionally absent from the release ZIP.
+# Validate it when running from a repository checkout without requiring it in
+# the downloaded artifact.
+if [ -f PUBLIC-MANIFEST.json ] || [ -f RIGHTS-MANIFEST.json ] || [ -f THIRD-PARTY-NOTICES.md ]; then
+  EXPECTED_FILES+=(PUBLIC-MANIFEST.json RIGHTS-MANIFEST.json THIRD-PARTY-NOTICES.md)
+fi
 
 # 1. Required files exist.
 missing=0
@@ -201,7 +204,7 @@ else
   fail "prompts.txt first line must be the OpenClaw Runbook 2 header"
   order_ok=0
 fi
-grep -q '^Released, version 0\.1\.0\.$' prompts.txt || { fail "prompts.txt is missing the released version line"; order_ok=0; }
+grep -q '^Released, version 0\.1\.1\.$' prompts.txt || { fail "prompts.txt is missing the released version line"; order_ok=0; }
 delim_count="$(grep -c '^=== Prompt ' prompts.txt || true)"
 delim_count="${delim_count:-0}"
 if [ "$delim_count" -ne 7 ]; then
@@ -240,11 +243,12 @@ else
   fail "README first line must be '# OpenClaw Runbook 2: Build an OpenClaw Setup You Can Understand and Repair'"
   readme_ok=0
 fi
-grep -q '\*\*Status:\*\* Released, version 0\.1\.0\.' README.md || { fail "README must state the released 0.1.0 status"; readme_ok=0; }
-grep -q '0\.1\.0' README.md || { fail "README must mention release 0.1.0"; readme_ok=0; }
+grep -q '\*\*Status:\*\* Released, version 0\.1\.1\.' README.md || { fail "README must state the released 0.1.1 status"; readme_ok=0; }
+grep -q '0\.1\.1' README.md || { fail "README must mention release 0.1.1"; readme_ok=0; }
 grep -qi '^## Quick start' README.md || { fail "README must have a Quick start section"; readme_ok=0; }
 map_ok=1
 for f in "${EXPECTED_FILES[@]}"; do
+  case "$f" in PUBLIC-MANIFEST.json|RIGHTS-MANIFEST.json|THIRD-PARTY-NOTICES.md) continue ;; esac
   grep -qF "](${f})" README.md || { fail "README file map is missing a link to $f"; map_ok=0; }
 done
 [ "$map_ok" -eq 1 ] || readme_ok=0
@@ -254,7 +258,7 @@ grep -qF "$RELEASE_URL" README.md || { fail "README must contain the immutable r
 # 11. CHANGELOG requirements.
 cl_ok=1
 grep -q 'OpenClaw Runbook 2' CHANGELOG.md || { fail "CHANGELOG must name the product as OpenClaw Runbook 2"; cl_ok=0; }
-grep -q '^## 0\.1\.0 - 2026-10-04$' CHANGELOG.md || { fail "CHANGELOG must record the 0.1.0 release date"; cl_ok=0; }
+grep -q '^## 0\.1\.1 - 2026-10-04$' CHANGELOG.md || { fail "CHANGELOG must record the 0.1.1 release date"; cl_ok=0; }
 [ "$cl_ok" -eq 1 ] && pass "CHANGELOG requirements verified"
 
 # 12. No stale draft/placeholder status strings.
@@ -306,17 +310,17 @@ done
 # 16. Immutable URL coverage: every prompt and prompts.txt carries the release URL.
 url_ok=1
 for pf in "${PROMPT_FILES[@]}"; do
-  grep -qF "$RELEASE_URL" "$pf" || { fail "$pf: missing the immutable v0.1.0 runbook URL"; url_ok=0; }
+  grep -qF "$RELEASE_URL" "$pf" || { fail "$pf: missing the immutable v0.1.1 runbook URL"; url_ok=0; }
 done
-grep -qF "$RELEASE_URL" prompts.txt || { fail "prompts.txt: missing the immutable v0.1.0 runbook URL"; url_ok=0; }
-[ "$url_ok" -eq 1 ] && pass "immutable v0.1.0 runbook URL present in all prompts and prompts.txt"
+grep -qF "$RELEASE_URL" prompts.txt || { fail "prompts.txt: missing the immutable v0.1.1 runbook URL"; url_ok=0; }
+[ "$url_ok" -eq 1 ] && pass "immutable v0.1.1 runbook URL present in all prompts and prompts.txt"
 
 # 17. Version/date consistency across README and CHANGELOG.
 ver_ok=1
 grep -q '2026-10-04' README.md || { fail "README must mention the 2026-10-04 release date"; ver_ok=0; }
 grep -q '2026-10-04' CHANGELOG.md || { fail "CHANGELOG must mention the 2026-10-04 release date"; ver_ok=0; }
-grep -q 'version 0\.1\.0' README.md || { fail "README must mention version 0.1.0"; ver_ok=0; }
-grep -q '0\.1\.0' CHANGELOG.md || { fail "CHANGELOG must mention version 0.1.0"; ver_ok=0; }
+grep -q 'version 0\.1\.1' README.md || { fail "README must mention version 0.1.1"; ver_ok=0; }
+grep -q '0\.1\.1' CHANGELOG.md || { fail "CHANGELOG must mention version 0.1.1"; ver_ok=0; }
 [ "$ver_ok" -eq 1 ] && pass "version and date consistency verified"
 
 # 18. No person names beyond Bill Watson (the author).
