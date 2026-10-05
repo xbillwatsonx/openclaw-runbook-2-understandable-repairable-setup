@@ -4,7 +4,7 @@ Copy this prompt into your OpenClaw chat.
 
 ---
 
-**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.0/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§7, Recording a known-good baseline**. This prompt helps the reader preserve a safe comparison point; the agent should gather read-only evidence, redact secrets, write only the approved baseline file, and report its path.
+**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.1/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§7, Recording a known-good baseline**. This prompt helps the reader preserve a safe comparison point; the agent should gather read-only evidence, redact secrets, write only the approved baseline file, and report its path.
 
 I want to record a known-good baseline of my OpenClaw setup, so I have a reference point to compare against after any change. Do not change anything. Just gather and record.
 

@@ -4,7 +4,7 @@ Copy this prompt into your OpenClaw chat. Run it before you change anything.
 
 ---
 
-**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.0/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§2, The system map**. This prompt helps the reader understand the six components; the agent should inspect read-only, explain in plain language, redact secrets, and make no changes.
+**Runbook bridge:** Read the released runbook at <https://raw.githubusercontent.com/xbillwatsonx/openclaw-runbook-2-understandable-repairable-setup/v0.1.1/runbook/oc-runbook-2-understandable-repairable-setup.md> before acting. Relevant section: **§2, The system map**. This prompt helps the reader understand the six components; the agent should inspect read-only, explain in plain language, redact secrets, and make no changes.
 
 I want to build a mental map of how my OpenClaw setup is put together. Do not change any files, config, services, or plugins. Just inspect and report.
 

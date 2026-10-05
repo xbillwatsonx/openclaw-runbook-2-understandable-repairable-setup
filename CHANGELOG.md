@@ -2,6 +2,11 @@
 
 All notable changes to OpenClaw Runbook 2 are recorded here.
 
+## 0.1.1 - 2026-10-04
+
+- Corrected the downloadable package validator so it validates the ZIP contents without requiring repository-only rights metadata files.
+- Updated immutable runbook links and release metadata to v0.1.1.
+
 ## 0.1.0 - 2026-10-04
 
 - First public release.
